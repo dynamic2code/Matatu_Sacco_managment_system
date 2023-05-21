@@ -17,7 +17,29 @@ def pass_register():
 
 @app.route('/pass_register/pass_registerd', methods=['POST'])
 def pass_registerd():
-    return render_template('pass_main.html')
+    name = request.form['name']
+    password = request.form['password']
+    phone = request.form['phone']
+    email = request.form['email']
+    
+
+    # Connect to the database
+    conn = sqlite3.connect('app.db')
+
+    # Create a cursor object
+    cursor = conn.cursor()
+
+    query = f"INSERT INTO passanger '{name}','{password}', '{phone}', '{email}'"
+    action = cursor.execute(query)
+    if action:
+        cursor.close()
+        conn.close()
+        return render_template('pass_main.html')
+    
+    else:
+        error_message = "An error occurred with your registration. If you have used our services try loging in above!"
+        return render_template('main.html', error_message=error_message)
+    
 
 @app.route('/pass_login')
 def pass_login():
@@ -25,6 +47,9 @@ def pass_login():
 
 @app.route('/pass_login/pass_main', methods=['POST'])
 def pass_main():
+    name = request.form['name']
+    phone = request.form['phone']
+    password = request.form['password']
     return render_template('pass_main.html')
 
 # driver
@@ -34,7 +59,33 @@ def driver_register():
 
 @app.route('/driver_register/driver_registerd', methods=['POST'])
 def driver_registerd():
-    return render_template('driver_main.html')
+    name = request.form['name']
+    id = request.form['ID']
+    email = request.form['email']
+    phone = request.form['phone']
+    password = request.form['password']
+
+    plates = request.form['plates']
+    capacity = request.form['capacity']
+
+    # Connect to the database
+    conn = sqlite3.connect('app.db')
+
+    # Create a cursor object
+    cursor = conn.cursor()
+
+    query = f"INSERT INTO driver '{name}', '{id}', '{email}', '{phone}', '{password}'"
+    action = cursor.execute(query)
+    if action:
+        cursor.close()
+        conn.close()
+        return render_template('driver_main.html')
+    
+    else:
+        error_message = "An error occurred with your registration. If you have used our services try loging in above!"
+        return render_template('main.html', error_message=error_message)
+
+    
 
 @app.route('/driver_login')
 def driver_login():
@@ -42,6 +93,10 @@ def driver_login():
 
 @app.route('/driver_login/driver_main', methods=['POST'])
 def driver_main():
+    name = request.form['name']
+    phone = request.form['phone']
+    password = request.form['password']
+
     return render_template('driver_main.html')
 
 # admin
@@ -51,6 +106,10 @@ def admin_login():
 
 @app.route('/admin_login/admin_main', methods=['POST'])
 def admin_main():
+    name = request.form['name']
+    phone = request.form['phone']
+    password = request.form['password']
+
     return render_template('admin_main.html')
 
 
