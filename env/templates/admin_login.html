@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admins login</title>
+    <style>
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+        .form-container {
+          border: 2px solid black;
+          padding: 20px;
+          text-align: center;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="tel"],
+        .form-container input[type="text"] {
+          margin-bottom: 10px;
+          padding: 5px;
+          width: 250px;
+        }
+        .form-container input[type="submit"] {
+          background-color: blue;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          cursor: pointer;
+        }
+      </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Log in here</h2>
+        <form action="{{ url_for('admin_main') }}" method="POST">
+          <input type="text" name="name" placeholder="Name" required><br>
+          <input type="tel" name="phone" placeholder="Phone Number" required><br>
+          <input type="text" name="id" placeholder="ID Number" required><br>
+          <input type="submit" value="Send">
+        </form>
+      </div>
+</body>
+</html>

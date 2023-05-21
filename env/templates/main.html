@@ -5,8 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matatu Sacco</title>
+    <style>
+        body {
+          background-color: white;
+        }
+        .description {
+          text-align: center;
+          margin-top: 50px;
+        }
+        .button {
+          display: block;
+          text-align: center;
+          margin-top: 20px;
+        }
+        .black-button {
+          background-color: black;
+          color: white;
+          padding: 10px 20px;
+          text-decoration: none;
+        }
+      </style>
 </head>
 <body>
-    <h1>wellcome you made it</h1> 
+    <div class="description">
+        <h1>Matatu Sacco</h1>
+        <p>We at Matatu sacco are dedicated to provide you with first class servises for all your transport needs we promise you the best experience with us.</p>
+    </div>
+    
+    <div class="button">
+        <a class="black-button" href="{{ url_for('pass_login') }}">Passanger</a>
+        <a class="black-button" href="{{ url_for('driver_login') }}">Driver</a>
+        <a class="black-button" href="{{ url_for('admin_login') }}">Admin</a>
+    </div> 
 </body>
 </html>
