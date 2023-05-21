@@ -50,7 +50,24 @@ def pass_main():
     name = request.form['name']
     phone = request.form['phone']
     password = request.form['password']
-    return render_template('pass_main.html')
+    
+        # Connect to the database
+    conn = sqlite3.connect('app.db')
+
+    # Create a cursor object
+    cursor = conn.cursor()
+
+    query = f"SELECT * FROM your_table WHERE name = {name} AND number ={phone}  AND password = {password}"
+    action = cursor.execute(query)
+    if action:
+        cursor.close()
+        conn.close()
+        return render_template('pass_main.html')
+    
+    else:
+        error_message = "An error occurred with your log in. If you have not used our services try registering in below!"
+        return render_template('main.html', error_message=error_message)
+    
 
 # driver
 @app.route('/driver_register')
@@ -77,6 +94,11 @@ def driver_registerd():
     query = f"INSERT INTO driver '{name}', '{id}', '{email}', '{phone}', '{password}'"
     action = cursor.execute(query)
     if action:
+        driver_id = cursor.lastrowid
+
+        car_query = f"INSERT INTO car '{driver_id}', '{capacity}', '{plates}'"
+        cursor.execute(car_query)
+        
         cursor.close()
         conn.close()
         return render_template('driver_main.html')
@@ -97,7 +119,24 @@ def driver_main():
     phone = request.form['phone']
     password = request.form['password']
 
-    return render_template('driver_main.html')
+    # Connect to the database
+    conn = sqlite3.connect('app.db')
+
+    # Create a cursor object
+    cursor = conn.cursor()
+
+    
+    query = f"SELECT * FROM your_table WHERE name = {name} AND number ={phone}  AND password = {password}"
+    action = cursor.execute(query)
+    if action:
+        cursor.close()
+        conn.close()
+        return render_template('driver_main.html')
+    
+    else:
+        error_message = "An error occurred with your registration. If you have used our services try loging in above!"
+        return render_template('main.html', error_message=error_message)
+    
 
 # admin
 @app.route('/admin_login')
@@ -110,7 +149,24 @@ def admin_main():
     phone = request.form['phone']
     password = request.form['password']
 
-    return render_template('admin_main.html')
+    # Connect to the database
+    conn = sqlite3.connect('app.db')
+
+    # Create a cursor object
+    cursor = conn.cursor()
+
+    query = f"SELECT * FROM your_table WHERE name = {name} AND number ={phone}  AND password = {password}"
+    action = cursor.execute(query)
+    if action:
+        cursor.close()
+        conn.close()
+        return render_template('admin_main.html')
+    
+    else:
+        error_message = "An error occurred with your registration. If you have used our services try loging in above!"
+        return render_template('main.html', error_message=error_message)
+
+    
 
 
 if __name__ == "__main__":
