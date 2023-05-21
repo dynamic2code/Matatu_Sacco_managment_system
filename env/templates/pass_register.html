@@ -19,7 +19,9 @@
         }
         .form-container input[type="text"],
         .form-container input[type="tel"],
-        .form-container input[type="text"] {
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="password"] {
           margin-bottom: 10px;
           padding: 5px;
           width: 250px;
@@ -35,11 +37,13 @@
 </head>
 <body>
     <div class="form-container">
-        <h2>log in here</h2>
-        <form action="{{ url_for('pass_main') }}" method="POST">
+        <h2>Register here</h2>
+        <form action="{{ url_for('pass_registerd') }}" method="POST">
           <input type="text" name="name" placeholder="Name" required><br>
           <input type="tel" name="phone" placeholder="Phone Number" required><br>
           <input type="text" name="id" placeholder="ID Number" required><br>
+          <input type="email" name="email" id="email"><br>
+          <input type="password" name="password" id="password"><br>
           <input type="submit" value="Send">
         </form>
       </div>
