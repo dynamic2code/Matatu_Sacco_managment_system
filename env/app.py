@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template, request, redirect
 import datetime
 import sqlite3
+import bcrypt
 
 app = Flask(__name__)
 
@@ -18,6 +19,8 @@ def pass_register():
 @app.route('/pass_register/pass_registerd', methods=['POST'])
 def pass_registerd():
     name = request.form['name']
+    print(name)
+    print(type(name))
     password = request.form['password']
     phone = request.form['phone']
     email = request.form['email']
@@ -28,8 +31,10 @@ def pass_registerd():
 
     # Create a cursor object
     cursor = conn.cursor()
+    # Hash the password
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
-    query = f"INSERT INTO passanger '{name}','{password}', '{phone}', '{email}'"
+    query = f"INSERT INTO passengers (name, password, phone, email) VALUES ('{name}', '{hashed_password}', {phone}, '{email}')"
     action = cursor.execute(query)
     if action:
         cursor.close()
