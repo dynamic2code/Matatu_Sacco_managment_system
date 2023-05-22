@@ -3,9 +3,21 @@ from flask import render_template, request, redirect
 import datetime
 import sqlite3
 import bcrypt
+from bcrypt import hashpw
 
 app = Flask(__name__)
 
+def car_filling():
+    pass
+
+def lining_algo():
+    # current car points to the id of the car in line
+    current_car = 0
+
+    #getting current car capacity
+
+    current_capacity = 0
+    pass
 
 @app.route('/')
 def main():
@@ -19,22 +31,20 @@ def pass_register():
 @app.route('/pass_register/pass_registerd', methods=['POST'])
 def pass_registerd():
     name = request.form['name']
-    print(name)
-    print(type(name))
     password = request.form['password']
     phone = request.form['phone']
     email = request.form['email']
-    
+    # Hash the password
+    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     # Connect to the database
     conn = sqlite3.connect('app.db')
 
     # Create a cursor object
     cursor = conn.cursor()
-    # Hash the password
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
-    query = f"INSERT INTO passengers (name, password, phone, email) VALUES ('{name}', '{hashed_password}', {phone}, '{email}')"
+
+    query = f"INSERT INTO passanger (name, password, phone, email) VALUES ('{name}', '{password}', {phone}, '{email}')"
     action = cursor.execute(query)
     if action:
         cursor.close()
@@ -82,11 +92,10 @@ def driver_register():
 @app.route('/driver_register/driver_registerd', methods=['POST'])
 def driver_registerd():
     name = request.form['name']
-    id = request.form['ID']
+    id = request.form['id']
     email = request.form['email']
     phone = request.form['phone']
     password = request.form['password']
-
     plates = request.form['plates']
     capacity = request.form['capacity']
 
@@ -96,16 +105,24 @@ def driver_registerd():
     # Create a cursor object
     cursor = conn.cursor()
 
-    query = f"INSERT INTO driver '{name}', '{id}', '{email}', '{phone}', '{password}'"
+    query = f"INSERT INTO driver (name, id_number, email, phone_number, password) VALUES ('{name}', '{id}', '{email}', '{phone}', '{password}')"
     action = cursor.execute(query)
     if action:
         driver_id = cursor.lastrowid
-
-        car_query = f"INSERT INTO car '{driver_id}', '{capacity}', '{plates}'"
-        cursor.execute(car_query)
-        
         cursor.close()
         conn.close()
+
+        current_capacity = 0 
+        trips_today = 0
+        # Connect to the database
+        conn = sqlite3.connect('app.db')
+
+        # Create a cursor object
+        cursor = conn.cursor()
+        car_query = f"INSERT INTO car (driver_id, full_capacity, plates, current_capacity, trips_today) VALUES ('{driver_id}', '{capacity}', '{plates}', {current_capacity},{trips_today})"
+        cursor.execute(car_query)
+        
+
         return render_template('driver_main.html')
     
     else:
@@ -131,7 +148,7 @@ def driver_main():
     cursor = conn.cursor()
 
     
-    query = f"SELECT * FROM your_table WHERE name = {name} AND number ={phone}  AND password = {password}"
+    query = f"SELECT * FROM admin WHERE name = {name} AND number ={phone}  AND password = {password}"
     action = cursor.execute(query)
     if action:
         cursor.close()
@@ -160,7 +177,7 @@ def admin_main():
     # Create a cursor object
     cursor = conn.cursor()
 
-    query = f"SELECT * FROM your_table WHERE name = {name} AND number ={phone}  AND password = {password}"
+    query = f"SELECT * FROM admin WHERE name = {name} AND number ={phone}  AND password = {password}"
     action = cursor.execute(query)
     if action:
         cursor.close()
