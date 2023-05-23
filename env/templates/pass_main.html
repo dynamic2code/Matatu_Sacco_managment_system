@@ -69,7 +69,7 @@
                 <option value="Ambassador Bus Stop">Ambassador Bus Stop</option>
                 <option value="Kawangware Stage">Kawangware Stage</option>
             </select><br>
-          <label for="stage">Choose your drop off point:</label><br>
+          <label for="drop_off">Choose your drop off point:</label><br>
             <select name="drop_off" id="drop_off">
                 <option value="Kencom Stage">Kencom Stage</option>
                 <option value="Railways Stage">Railways Stage</option>
@@ -90,7 +90,7 @@
       {% if cost %}
       <div class="form-container">
         <h2>Trip Cost Confirmation</h2>
-        <form action="/confirm_trip" method="POST">
+        <form action="{{url_for('confirm_trip')}}" method="POST">
             <label for="trip_cost">Trip Cost:</label>
             <input type="text" id="trip_cost" name="trip_cost" readonly><br>
             <label for="confirmation">Please confirm the trip:</label><br>

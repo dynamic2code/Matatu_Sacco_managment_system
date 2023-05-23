@@ -9,31 +9,76 @@ app = Flask(__name__)
 
 
 def lining_algo():
-    # current car points to the id of the car in line
-    current_car = 0
-    # fetch capacity of car with the id == current car from db
-    full_cappacity = 14
+    """
+    This function implements a lining algorithm.
 
-    #getting current car capacity
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
+    # Initialize the current car ID and capacity.
+    all_cars = 3
+    current_car_id = 0
     current_capacity = 0
-    if comfirm_trip():
-        current_capacity += 1
+    while current_car_id < all_cars:
+        print(current_car_id)
+    # Loop until the car is full.
+        while current_capacity < 14:
+            # Ask the user to confirm their trip.
+            confirmation = confirm_trip()
+
+            # If the user confirms their trip, increase the capacity and print the new capacity.
+            if confirmation == "Confirm":
+                current_capacity += 1
+                print(current_capacity)
+        
+        if current_capacity == 14:
+            current_car_id += 1
+            current_capacity = 0
+        
+            # If the capacity is full, increment the current car ID.
     
-    if current_capacity == full_cappacity:
-        current_car += 1
-        current_capacity = 0
 
 @app.route('/')
 def main():
+    """
+    This function shows first page.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
     return render_template('main.html')
 
 #pass
 @app.route('/pass_register')
 def pass_register():
+    """
+    This function shows the passanger registration page.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
     return render_template('pass_register.html')
 
 @app.route('/pass_register/pass_registerd', methods=['POST'])
 def pass_registerd():
+    """
+    This function handles the passanger registration.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
     name = request.form['name']
     password = request.form['password']
     phone = request.form['phone']
@@ -62,10 +107,28 @@ def pass_registerd():
 
 @app.route('/pass_login')
 def pass_login():
+    """
+    This function shows the passanger log_in page.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
     return render_template('pass_login.html')
 
 @app.route('/pass_login/pass_main', methods=['POST'])
 def pass_main():
+    """
+    This function handles the passangers log_in.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
     name = request.form['name']
     phone = request.form['phone']
     password = request.form['password']
@@ -87,21 +150,39 @@ def pass_main():
         error_message = "An error occurred with your log in. If you have not used our services try registering in below!"
         return render_template('main.html', error_message=error_message)
 
-@app.route('/get_destination')
+@app.route('/get_destination', methods=['POST'])
 def get_destination():
-    stage =  request.form['stage']
+    """
+    This function handles the passangers input on destination.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
+    stage =  request.form['Stage']
     drop_off = request.form['drop_off']
 
-    cost = 200
+    cost = "200"
 
     if (stage and drop_off):
-        return cost
-@app.route('/comfirm_trip', methods=['POST'])
-def comfirm_trip():
-    if request.form['name'] == "Confirm":
-        return True
-    else:
-        return False
+        return render_template("pass_main.html", cost = cost)
+    
+
+@app.route('/comfirm_trip', methods=['GET','POST'])
+def confirm_trip():
+    """
+    This function is responsible for the payment request.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
+    choise = request.form['confirmation']
+    return render_template("pass_main.html", choise = choise)
 
 # driver
 @app.route('/driver_register')
