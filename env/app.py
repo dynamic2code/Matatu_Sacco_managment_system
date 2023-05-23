@@ -1,12 +1,14 @@
 from flask import Flask
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect,session
 import datetime
 import sqlite3
 import bcrypt
 from bcrypt import hashpw
+from secrets import secret_key
 
 app = Flask(__name__)
 
+app.secret_key = secret_key
 
 def lining_algo():
     """
@@ -52,7 +54,14 @@ def main():
     Returns:
     None.
     """
-    return render_template('main.html')
+    if session['type'] == "pass":
+        return render_template('pass_main.html')
+    elif session['type'] == "driver":
+        return render_template('driver_main.html')
+    elif session['type'] == "admin":
+        return render_template('admin_main.html')
+    else:
+        return render_template('main.html')
 
 #pass
 @app.route('/pass_register')
@@ -83,6 +92,7 @@ def pass_registerd():
     password = request.form['password']
     phone = request.form['phone']
     email = request.form['email']
+
     # Hash the password
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
@@ -92,10 +102,14 @@ def pass_registerd():
     # Create a cursor object
     cursor = conn.cursor()
 
-
     query = f"INSERT INTO passanger (name, password, phone, email) VALUES ('{name}', '{password}', {phone}, '{email}')"
     action = cursor.execute(query)
     if action:
+        # add to session 
+        session['name'] = name
+        session['phone'] = phone
+        session['type'] = "pass"
+
         cursor.close()
         conn.close()
         return render_template('pass_main.html')
@@ -142,6 +156,11 @@ def pass_main():
     query = f"SELECT * FROM your_table WHERE name = {name} AND number ={phone}  AND password = {password}"
     action = cursor.execute(query)
     if action:
+        # add to session 
+        session['name'] = name
+        session['phone'] = phone
+        session['type'] = "pass"
+
         cursor.close()
         conn.close()
         return render_template('pass_main.html')
@@ -199,6 +218,7 @@ def driver_registerd():
     plates = request.form['plates']
     capacity = request.form['capacity']
 
+
     # Connect to the database
     conn = sqlite3.connect('app.db')
 
@@ -208,6 +228,10 @@ def driver_registerd():
     query = f"INSERT INTO driver (name, id_number, email, phone_number, password) VALUES ('{name}', '{id}', '{email}', '{phone}', '{password}')"
     action = cursor.execute(query)
     if action:
+        # add to session 
+        session['name'] = name
+        session['phone'] = phone
+        session['type'] = "driver"
         driver_id = cursor.lastrowid
         cursor.close()
         conn.close()
@@ -241,6 +265,7 @@ def driver_main():
     phone = request.form['phone']
     password = request.form['password']
 
+
     # Connect to the database
     conn = sqlite3.connect('app.db')
 
@@ -251,6 +276,11 @@ def driver_main():
     query = f"SELECT * FROM admin WHERE name = {name} AND number ={phone}  AND password = {password}"
     action = cursor.execute(query)
     if action:
+        # add to session 
+        session['name'] = name
+        session['phone'] = phone
+        session['type'] = "driver"
+
         cursor.close()
         conn.close()
         return render_template('driver_main.html')
@@ -280,6 +310,10 @@ def admin_main():
     query = f"SELECT * FROM admin WHERE name = {name} AND number ={phone}  AND password = {password}"
     action = cursor.execute(query)
     if action:
+        # add to session 
+        session['name'] = name
+        session['phone'] = phone
+        session['type'] = "admin"
         cursor.close()
         conn.close()
         return render_template('admin_main.html')
