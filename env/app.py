@@ -104,6 +104,7 @@ def pass_registerd():
 
     query = f"INSERT INTO passanger (name, password, phone, email) VALUES ('{name}', '{password}', {phone}, '{email}')"
     action = cursor.execute(query)
+    conn.commit()
     if action:
         # add to session 
         session['name'] = name
@@ -227,6 +228,7 @@ def driver_registerd():
 
     query = f"INSERT INTO driver (name, id_number, email, phone_number, password) VALUES ('{name}', '{id}', '{email}', '{phone}', '{password}')"
     action = cursor.execute(query)
+    conn.commit()
     if action:
         # add to session 
         session['name'] = name
@@ -245,7 +247,7 @@ def driver_registerd():
         cursor = conn.cursor()
         car_query = f"INSERT INTO car (driver_id, full_capacity, plates, current_capacity, trips_today) VALUES ('{driver_id}', '{capacity}', '{plates}', {current_capacity},{trips_today})"
         cursor.execute(car_query)
-        
+        conn.commit()
 
         return render_template('driver_main.html')
     
