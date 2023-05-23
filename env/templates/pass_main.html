@@ -5,8 +5,99 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matatu sacco</title>
+    <!-- Include the Select2 CSS file -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Include jQuery library (required by Select2) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Include the Select2 JavaScript file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+          $('#stage').select2();
+        });
+        $(document).ready(function() {
+          $('#drop_off').select2();
+        });
+    </script>
+      
+    <style>
+        body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+        }
+        .form-container {
+          border: 2px solid black;
+          padding: 20px;
+          text-align: center;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="tel"],
+        .form-container input[type="password"] {
+          margin-bottom: 10px;
+          padding: 5px;
+          width: 250px;
+        }
+        .form-container input[type="submit"] {
+          background-color: blue;
+          color: white;
+          padding: 10px 20px;
+          border: none;
+          cursor: pointer;
+        }
+      </style>
 </head>
 <body>
-    <h1> Yeey!! you made it Passanger</h1>
+    <div class="form-container">
+        <h2>Where should we take you</h2>
+        <form action="{{ url_for('get_destination') }}" method="POST">
+          <label for="stage">Choose your pickup stage:</label><br>
+            <select name="Stage" id="stage">
+                <option value="Kencom Stage">Kencom Stage</option>
+                <option value="Railways Stage">Railways Stage</option>
+                <option value="Odeon Cinema Stage">Odeon Cinema Stage</option>
+                <option value="Ambassador Stage">Ambassador Stage</option>
+                <option value="Archives Stage">Archives Stage</option>
+                <option value="Muthurwa Market Stage">Muthurwa Market Stage</option>
+                <option value="Afya Centre Stage">Afya Centre Stage</option>
+                <option value="Ronald Ngala Stage">Ronald Ngala Stage</option>
+                <option value="Tom Mboya Stage">Tom Mboya Stage</option>
+                <option value="Country Bus Station">Country Bus Station</option>
+                <option value="Ambassador Bus Stop">Ambassador Bus Stop</option>
+                <option value="Kawangware Stage">Kawangware Stage</option>
+            </select><br>
+          <label for="stage">Choose your drop off point:</label><br>
+            <select name="drop_off" id="drop_off">
+                <option value="Kencom Stage">Kencom Stage</option>
+                <option value="Railways Stage">Railways Stage</option>
+                <option value="Odeon Cinema Stage">Odeon Cinema Stage</option>
+                <option value="Ambassador Stage">Ambassador Stage</option>
+                <option value="Archives Stage">Archives Stage</option>
+                <option value="Muthurwa Market Stage">Muthurwa Market Stage</option>
+                <option value="Afya Centre Stage">Afya Centre Stage</option>
+                <option value="Ronald Ngala Stage">Ronald Ngala Stage</option>
+                <option value="Tom Mboya Stage">Tom Mboya Stage</option>
+                <option value="Country Bus Station">Country Bus Station</option>
+                <option value="Ambassador Bus Stop">Ambassador Bus Stop</option>
+                <option value="Kawangware Stage">Kawangware Stage</option>
+            </select><br>
+          <input type="submit" value="Send">
+        </form>
+      </div>
+      {% if cost %}
+      <div class="form-container">
+        <h2>Trip Cost Confirmation</h2>
+        <form action="/confirm_trip" method="POST">
+            <label for="trip_cost">Trip Cost:</label>
+            <input type="text" id="trip_cost" name="trip_cost" readonly><br>
+            <label for="confirmation">Please confirm the trip:</label><br>
+            <input type="submit" name="confirmation" value="Confirm">
+            <input type="submit" name="confirmation" value="Cancel">
+        </form>
+    </div>
+    {% endif %}
 </body>
 </html>

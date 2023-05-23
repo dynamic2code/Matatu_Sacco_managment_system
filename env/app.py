@@ -7,17 +7,21 @@ from bcrypt import hashpw
 
 app = Flask(__name__)
 
-def car_filling():
-    pass
 
 def lining_algo():
     # current car points to the id of the car in line
     current_car = 0
+    # fetch capacity of car with the id == current car from db
+    full_cappacity = 14
 
     #getting current car capacity
-
     current_capacity = 0
-    pass
+    if comfirm_trip():
+        current_capacity += 1
+    
+    if current_capacity == full_cappacity:
+        current_car += 1
+        current_capacity = 0
 
 @app.route('/')
 def main():
@@ -82,7 +86,22 @@ def pass_main():
     else:
         error_message = "An error occurred with your log in. If you have not used our services try registering in below!"
         return render_template('main.html', error_message=error_message)
-    
+
+@app.route('/get_destination')
+def get_destination():
+    stage =  request.form['stage']
+    drop_off = request.form['drop_off']
+
+    cost = 200
+
+    if (stage and drop_off):
+        return cost
+@app.route('/comfirm_trip', methods=['POST'])
+def comfirm_trip():
+    if request.form['name'] == "Confirm":
+        return True
+    else:
+        return False
 
 # driver
 @app.route('/driver_register')
