@@ -20,8 +20,14 @@ def lining_algo():
     Returns:
     None.
     """
+    conn = sqlite3.connect('app.db')
+
+    # Create a cursor object
+    cursor = conn.cursor()
     # Initialize the current car ID and capacity.
-    all_cars = 3
+    query = f"SELECT car_id FROM car ORDER BY car_id DESC LIMIT 1"
+    cursor.execute(query)
+    all_cars = cursor.fetchone()[0]
     current_car_id = 0
     current_capacity = 0
     while current_car_id < all_cars:
