@@ -20,6 +20,11 @@
         $(document).ready(function() {
           $('#drop_off').select2();
         });
+
+        function showForm() {
+      var formContainer = document.getElementById("form-container1");
+      formContainer.style.display = "block";
+    }
     </script>
       
     <style>
@@ -28,6 +33,21 @@
           justify-content: center;
           align-items: center;
           height: 100vh;
+        }
+        .button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 200px;
+          height: 50px;
+          background-color: blue;
+          color: white;
+          font-size: 18px;
+          border: none;
+          cursor: pointer;
+        }
+        #form-container1{
+          display: none;
         }
         .form-container {
           border: 2px solid black;
@@ -51,7 +71,8 @@
       </style>
 </head>
 <body>
-    <div class="form-container">
+  <button class="button" onclick="showForm()">Get seat</button>
+    <div class="form-container" id="form-container1">
         <h2>Where should we take you</h2>
         <form action="{{ url_for('get_destination') }}" method="POST">
           <label for="stage">Choose your pickup stage:</label><br>
@@ -92,7 +113,7 @@
         <h2>Trip Cost Confirmation</h2>
         <form action="{{url_for('confirm_trip')}}" method="POST">
             <label for="trip_cost">Trip Cost:</label>
-            <input type="text" id="trip_cost" name="trip_cost" readonly><br>
+            <input type="text" id="trip_cost" name="trip_cost" placeholder="{{cost}}" readonly><br>
             <label for="confirmation">Please confirm the trip:</label><br>
             <input type="submit" name="confirmation" value="Confirm">
             <input type="submit" name="confirmation" value="Cancel">
