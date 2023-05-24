@@ -54,13 +54,16 @@ def main():
     Returns:
     None.
     """
-    if session['type'] == "pass":
-        return render_template('pass_main.html')
-    elif session['type'] == "driver":
-        return render_template('driver_main.html')
-    elif session['type'] == "admin":
-        return render_template('admin_main.html')
+    if session.get('name') is not None:
+        # The session exists
+        if session['type'] == "pass":
+            return render_template('pass_main.html')
+        elif session['type'] == "driver":
+            return render_template('driver_main.html')
+        elif session['type'] == "admin":
+            return render_template('admin_main.html')
     else:
+  # The session does not exist
         return render_template('main.html')
 
 #pass
@@ -154,8 +157,8 @@ def pass_main():
     # Create a cursor object
     cursor = conn.cursor()
 
-    query = f"SELECT * FROM your_table WHERE name = {name} AND number ={phone}  AND password = {password}"
-    action = cursor.execute(query)
+    query = f"SELECT * FROM your_table WHERE name = {name} AND phone = :phone  AND password = :password"
+    action = cursor.execute(query, {'name': name, 'phone': phone, 'password': password})
     if action:
         # add to session 
         session['name'] = name
@@ -275,8 +278,8 @@ def driver_main():
     cursor = conn.cursor()
 
     
-    query = f"SELECT * FROM admin WHERE name = {name} AND number ={phone}  AND password = {password}"
-    action = cursor.execute(query)
+    query = f"SELECT * FROM admin WHERE name = :name AND phone_number = :phone_number  AND password = :password"
+    action = cursor.execute(query, {'name': name, 'phone_number': phone, 'password': password})
     if action:
         # add to session 
         session['name'] = name
@@ -309,8 +312,8 @@ def admin_main():
     # Create a cursor object
     cursor = conn.cursor()
 
-    query = f"SELECT * FROM admin WHERE name = {name} AND number ={phone}  AND password = {password}"
-    action = cursor.execute(query)
+    query = f"SELECT * FROM admin WHERE name = :name AND id_number = :id_number  AND password = :password"
+    action = cursor.execute(query, {'name': name, 'id_number': phone, 'password': password})
     if action:
         # add to session 
         session['name'] = name
