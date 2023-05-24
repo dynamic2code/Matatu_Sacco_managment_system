@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, request, redirect,session
+from flask import render_template, request, redirect,session, flash
 import datetime
 import sqlite3
 import bcrypt
@@ -205,6 +205,10 @@ def confirm_trip():
     None.
     """
     choise = request.form['confirmation']
+
+    if choise == "Confirm":
+        flash('Action performed successfully!', 'success')
+
     return render_template("pass_main.html", choise = choise)
 
 # driver
@@ -256,7 +260,7 @@ def driver_registerd():
     
     else:
         error_message = "An error occurred with your registration. If you have used our services try loging in above!"
-        return render_template('main.html', error_message=error_message)
+        return render_template('main.html', error_message = error_message)
 
     
 

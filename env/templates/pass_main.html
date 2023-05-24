@@ -68,6 +68,18 @@
           border: none;
           cursor: pointer;
         }
+        .alert {
+          border: 2px solid black;
+          border-radius: 10px;
+          background-color: #dff0d8;
+          color: #3c763d;
+          padding: 10px;
+          position: fixed;
+          top: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 9999;
+        }
       </style>
 </head>
 <body>
@@ -120,5 +132,12 @@
         </form>
     </div>
     {% endif %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="alert alert-success">
+        {{ messages[0] }}
+      </div>
+    {% endif %}
+  {% endwith %}
 </body>
 </html>
