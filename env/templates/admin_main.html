@@ -8,10 +8,12 @@
 </head>
 <body>
     <h1> Yeey!! you made it admin</h1>
-    <h5>The total number of cars in the sacco is{{details_dict["all_car"]}}</h5>
-    <h5>The car in line is {{details_dict["current_car_id"]}}</h5>
-    <h5>The total makings of the sacco today is{{details_dic["makings"]}}</h5>
-    <h5>The total makings of the sacco this week is {{details_dic["makings"]}}</h5>
-    <h5>the saccos profit this week is{{details_dic["makings"]}}</h5>
+    {% if driver_details.driver_details %}
+        <h5>The total number of cars in the sacco is{{driver_details.all_car}}</h5>
+        <h5>The car in line is {{driver_details.current_car_id}}</h5>
+        <h5>The total makings of the sacco today is{{driver_details.makings}}</h5>
+        <h5>The total makings of the sacco this week is {{details_dic.makings}}</h5>
+        <h5>the saccos profit this week is{{driver_details.makings}}</h5>
+    {% endif %}
 </body>
 </html>

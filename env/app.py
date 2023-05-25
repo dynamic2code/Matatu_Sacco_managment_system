@@ -18,9 +18,9 @@ def lining_algo():
     None.
 
     Returns:
-    details_dict
+    driver_details
     """
-    details_dict = {}
+    driver_details = {}
 
     conn = sqlite3.connect('app.db')
 
@@ -30,14 +30,14 @@ def lining_algo():
     query = f"SELECT car_id FROM car ORDER BY car_id DESC LIMIT 1"
     cursor.execute(query)
     all_cars = cursor.fetchone()[0]
-    details_dict["all_cars"] = all_cars
+    driver_details["all_cars"] = all_cars
     makings = 0
     current_car_id = 0
     current_capacity = 0
     while current_car_id < all_cars:
         print(current_car_id)
-        details_dict["current_car_id"] = current_car_id
-        details_dict["makings"] = makings
+        driver_details["current_car_id"] = current_car_id
+        driver_details["makings"] = makings
     # Loop until the car is full.
         while current_capacity < 14:
             # Ask the user to confirm their trip.
@@ -47,6 +47,7 @@ def lining_algo():
             if confirmation == "Confirm":
                 current_capacity += 1
                 print(current_capacity)
+                print(driver_details) 
         
         if current_capacity == 14:
             current_car_id += 1
@@ -54,7 +55,6 @@ def lining_algo():
             current_capacity = 0
         
             # If the capacity is full, increment the current car ID.
-    return details_dict
 
 @app.route('/')
 def main():
@@ -72,9 +72,14 @@ def main():
         if session['type'] == "pass":
             return render_template('pass_main.html')
         elif session['type'] == "driver":
-            return render_template('driver_main.html')
+            driver_details = lining_algo()
+            print(driver_details)
+            return render_template('drivers_main.html', driver_details = driver_details)         
         elif session['type'] == "admin":
-            return render_template('admin_main.html')
+            driver_details = lining_algo()
+            print(driver_details)
+            return render_template('admin_main.html', driver_details = driver_details)
+    
     else:
   # The session does not exist
         return render_template('main.html')
@@ -291,7 +296,7 @@ def driver_registerd():
 
         driver_details = lining_algo()
 
-        return render_template('driver_main.html',driver_details = driver_details)
+        return render_template('driver_main.html', driver_details = driver_details)
     
     else:
         error_message = "An error occurred with your registration. If you have used our services try loging in above!"
@@ -400,7 +405,13 @@ def admin_main():
         cursor.close()
         conn.close()
 
-        driver_details = lining_algo()
+        # if lining_algo == 0:
+        #    driver_details = {'all_cars': 3, 'current_car_id': 2, 'makings': 400}
+        # # elif lining_algo != 0:
+        #     driver_details = lining_algo()
+        # driver_details = lining_algo()
+        # print(driver_details)
+        lining_algo()
 
         return render_template('admin_main.html', driver_details = driver_details)
     

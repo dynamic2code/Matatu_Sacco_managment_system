@@ -57,12 +57,13 @@
 </head>
 <body>
     <h1> Yeey!! you made it driver</h1>
-    <h5>The car in line is {{details_dict["current_car_id"]}}</h5>
-    <h5>The Next car in line is {{details_dict["current_car_id"] + 1}}</h5>
-    <h5>Your current make today is{{details_dic["makings"]}}</h5>
-    <h5>This week you made{{details_dic["makings"]}}</h5>
-    <button class="button" onclick="showForm()">Withdraw</button>
-
+    {% if driver_details.driver_details %}
+      <h5>The car in line is {{driver_details.current_car_id}}</h5>
+      <h5>The Next car in line is {{driver_details.current_car_id + 1}}</h5>
+      <h5>Your current make today is{{driver_details.makings}}</h5>
+      <h5>This week you made{{driver_details.makings}}</h5>
+      <button class="button" onclick="showForm()">Withdraw</button>
+    {% endif %}
     <div class="form-container" id="form-container1">
         <h2>Withdraw here</h2>
         <form action="{{ url_for('pass_main') }}" method="POST">
