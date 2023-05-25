@@ -18,8 +18,10 @@ def lining_algo():
     None.
 
     Returns:
-    None.
+    details_dict
     """
+    details_dict = {}
+
     conn = sqlite3.connect('app.db')
 
     # Create a cursor object
@@ -28,10 +30,14 @@ def lining_algo():
     query = f"SELECT car_id FROM car ORDER BY car_id DESC LIMIT 1"
     cursor.execute(query)
     all_cars = cursor.fetchone()[0]
+    details_dict["all_cars"] = all_cars
+    makings = 0
     current_car_id = 0
     current_capacity = 0
     while current_car_id < all_cars:
         print(current_car_id)
+        details_dict["current_car_id"] = current_car_id
+        details_dict["makings"] = makings
     # Loop until the car is full.
         while current_capacity < 14:
             # Ask the user to confirm their trip.
@@ -44,10 +50,11 @@ def lining_algo():
         
         if current_capacity == 14:
             current_car_id += 1
+            makings += 200
             current_capacity = 0
         
             # If the capacity is full, increment the current car ID.
-    
+    return details_dict
 
 @app.route('/')
 def main():
@@ -218,12 +225,32 @@ def confirm_trip():
     return render_template("pass_main.html", choise = choise)
 
 # driver
+
+
 @app.route('/driver_register')
 def driver_register():
+    """
+    This function is responsible for displaying the driver_registration.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
     return render_template('driver_register.html')
 
 @app.route('/driver_register/driver_registerd', methods=['POST'])
 def driver_registerd():
+    """
+    This function is responsible for the registration for the drivers and addition of cars.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
     name = request.form['name']
     id = request.form['id']
     email = request.form['email']
@@ -262,7 +289,9 @@ def driver_registerd():
         cursor.execute(car_query)
         conn.commit()
 
-        return render_template('driver_main.html')
+        driver_details = lining_algo()
+
+        return render_template('driver_main.html',driver_details = driver_details)
     
     else:
         error_message = "An error occurred with your registration. If you have used our services try loging in above!"
@@ -272,10 +301,28 @@ def driver_registerd():
 
 @app.route('/driver_login')
 def driver_login():
+    """
+    This function is responsible for showing the log in page.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
     return render_template('driver_login.html')
 
 @app.route('/driver_login/driver_main', methods=['POST'])
 def driver_main():
+    """
+    This function is responsible for processing the login.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
     name = request.form['name']
     phone = request.form['phone']
     password = request.form['password']
@@ -298,7 +345,8 @@ def driver_main():
 
         cursor.close()
         conn.close()
-        return render_template('driver_main.html')
+        driver_details = lining_algo()
+        return render_template('driver_main.html', driver_details = driver_details)
     
     else:
         error_message = "An error occurred with your registration. If you have used our services try loging in above!"
@@ -306,12 +354,32 @@ def driver_main():
     
 
 # admin
+
+
 @app.route('/admin_login')
 def admin_login():
+    """
+    This function is responsible for displaying the admin log in.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
     return render_template('admin_login.html')
 
 @app.route('/admin_login/admin_main', methods=['POST'])
 def admin_main():
+    """
+    This function is responsible for processing the log in for admin.
+
+    Args:
+    None.
+
+    Returns:
+    None.
+    """
     name = request.form['name']
     phone = request.form['phone']
     password = request.form['password']
@@ -331,7 +399,10 @@ def admin_main():
         session['type'] = "admin"
         cursor.close()
         conn.close()
-        return render_template('admin_main.html')
+
+        driver_details = lining_algo()
+
+        return render_template('admin_main.html', driver_details = driver_details)
     
     else:
         error_message = "An error occurred with your registration. If you have used our services try loging in above!"
