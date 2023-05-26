@@ -296,8 +296,6 @@ def driver_registerd():
         cursor.execute(car_query)
         conn.commit()
 
-        driver_details = lining_algo()
-
         return render_template('driver_main.html', driver_details = driver_details)
     
     else:
@@ -352,7 +350,7 @@ def driver_main():
 
         cursor.close()
         conn.close()
-        driver_details = lining_algo()
+        
         return render_template('driver_main.html', driver_details = driver_details)
     
     else:
@@ -407,15 +405,6 @@ def admin_main():
         cursor.close()
         conn.close()
 
-        # if lining_algo == 0:
-        #    driver_details = {'all_cars': 3, 'current_car_id': 2, 'makings': 400}
-        # # elif lining_algo != 0:
-        #     driver_details = lining_algo()
-        # driver_details = lining_algo()
-        # print(driver_details)
-        
-
-     
 
         return render_template('admin_main.html', driver_details = driver_details )
     
