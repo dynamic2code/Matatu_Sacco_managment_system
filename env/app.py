@@ -10,8 +10,14 @@ app = Flask(__name__)
 
 app.secret_key = secret_key
 global driver_details
+global all_cars
+conn = sqlite3.connect('app.db')
+cursor = conn.cursor()
+query = f"SELECT car_id FROM car ORDER BY car_id DESC LIMIT 1"
+cursor.execute(query)
+all_cars = cursor.fetchone()[0]
 
-driver_details = {"all_cars": 0, "current_car_id": 0, "makings": 0}
+driver_details = {"all_cars": all_cars, "current_car_id": 0, "makings": 0}
 def lining_algo(drivers_details):
     """
     This function implements a lining algorithm.
@@ -23,16 +29,6 @@ def lining_algo(drivers_details):
     driver_details
     """
     
-
-    conn = sqlite3.connect('app.db')
-
-    # Create a cursor object
-    cursor = conn.cursor()
-    # Initialize the current car ID and capacity.
-    query = f"SELECT car_id FROM car ORDER BY car_id DESC LIMIT 1"
-    cursor.execute(query)
-    all_cars = cursor.fetchone()[0]
-    driver_details["all_cars"] = all_cars
     makings = 0
     current_car_id = 0
     current_capacity = 0
@@ -225,9 +221,45 @@ def confirm_trip():
     None.
     """
     choise = request.form['confirmation']
-
+    
     if choise == "Confirm":
         flash('Action performed successfully!', 'success')
+        """
+        This function implements a lining algorithm.
+
+        Args:
+        None.
+
+        Returns:
+        driver_details
+        """
+        
+        makings = 0
+        current_car_id = 0
+        current_capacity = 0
+        while current_car_id < all_cars:
+            print(current_car_id)
+            driver_details["current_car_id"] = current_car_id
+            driver_details["makings"] = makings
+        # Loop until the car is full.
+            while current_capacity < 14:
+                # Ask the user to confirm their trip.
+                # confirmation = confirm_trip()
+
+                # If the user confirms their trip, increase the capacity and print the new capacity.
+                # if confirmation == "Confirm":
+                current_capacity += 1
+                print(current_capacity)
+                print(driver_details) 
+            
+            if current_capacity == 14:
+                current_car_id += 1
+                makings += 200
+                current_capacity = 0
+        
+            # If the capacity is full, increment the current car ID.
+
+
 
     return render_template("pass_main.html", choise = choise)
 
