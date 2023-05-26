@@ -139,8 +139,8 @@ def pass_registerd():
         return render_template('pass_main.html')
     
     else:
-        error_message = "An error occurred with your registration. If you have used our services try loging in above!"
-        return render_template('main.html', error_message=error_message)
+        flash('Action performed unsuccessfully!', 'unsuccessful')
+        return render_template('main.html')
     
 
 @app.route('/pass_login')
@@ -190,8 +190,8 @@ def pass_main():
         return render_template('pass_main.html')
     
     else:
-        error_message = "An error occurred with your log in. If you have not used our services try registering in below!"
-        return render_template('main.html', error_message=error_message)
+        flash('Action performed unsuccessfully!', 'unsuccessful')
+        return render_template('main.html')
 
 @app.route('/get_destination', methods=['POST'])
 def get_destination():
@@ -299,8 +299,8 @@ def driver_registerd():
         return render_template('driver_main.html', driver_details = driver_details)
     
     else:
-        error_message = "An error occurred with your registration. If you have used our services try loging in above!"
-        return render_template('main.html', error_message = error_message)
+        flash('Action performed unsuccessfully!', 'unsuccessful')
+        return render_template("main.html")
 
     
 
@@ -351,11 +351,12 @@ def driver_main():
         cursor.close()
         conn.close()
         
-        return render_template('driver_main.html', driver_details = driver_details)
+        return render_template("driver_main.html", driver_details = driver_details)
     
     else:
-        error_message = "An error occurred with your registration. If you have used our services try loging in above!"
-        return render_template('main.html', error_message=error_message)
+        flash('Action performed unsuccessfully!', 'unsuccessful')
+        # error_message = "An error occurred with your registration. If you have used our services try loging in above!"
+        return render_template("main.html")
     
 
 # admin
@@ -372,7 +373,7 @@ def admin_login():
     Returns:
     None.
     """
-    return render_template('admin_login.html')
+    return render_template("admin_login.html")
 
 @app.route('/admin_login/admin_main', methods=['POST'])
 def admin_main():
