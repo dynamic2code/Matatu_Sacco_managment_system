@@ -12,6 +12,16 @@
           align-items: center;
           height: 100vh;
         }       */
+        div {
+        background-color: rgb(229, 231, 231);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border: 1px solid #000;
+        transition: box-shadow 0.3s ease-in-out;
+        }
+
+        div:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
         #form-container1{
           display: none;
         }
@@ -26,6 +36,8 @@
           font-size: 18px;
           border: none;
           cursor: pointer;
+          margin-left: auto;
+          margin-right: auto;
         }
 
         .form-container {
@@ -47,21 +59,32 @@
           border: none;
           cursor: pointer;
         }
+        h5 {
+            font-size: 20px;
+            font-family: "JetBrains Mono", monospace;
+        }
     </style>
     <script>
     function showForm() {
       var formContainer = document.getElementById("form-container1");
       formContainer.style.display = "block";
     }
+    function hideFormContainer() {
+        var formContainer = document.getElementById("form-container1");
+        formContainer.style.display = "none";
+    }
     </script>
 </head>
 <body>
-    <h1> Yeey!! you made it driver</h1>
+    <h1> Welcome to the drivers' page</h1>
+    <div>
+      <h5>The car in line is {{driver_details.current_car_id}}</h5>
+      <h5>The Next car in line is {{driver_details.current_car_id + 1}}</h5>
+      <h5>Your current make today is {{driver_details.makings}}</h5>
+      <h5>This week you made {{driver_details.makings}}</h5>
+    </div>
 
-    <h5>The car in line is {{driver_details.current_car_id}}</h5>
-    <h5>The Next car in line is {{driver_details.current_car_id + 1}}</h5>
-    <h5>Your current make today is{{driver_details.makings}}</h5>
-    <h5>This week you made{{driver_details.makings}}</h5>
+
     <button class="button" onclick="showForm()">Withdraw</button>
 
     <div class="form-container" id="form-container1">
@@ -71,6 +94,7 @@
           <input type="password" name="password" placeholder="password" required><br>
           <input type="submit" value="Send">
         </form>
+        <button onclick="hideFormContainer()">Cancel</button>
     </div>
 </body>
 </html>

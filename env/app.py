@@ -11,6 +11,18 @@ app = Flask(__name__)
 app.secret_key = secret_key
 global driver_details
 global all_cars
+global passenger_count, car_list
+
+
+
+conn = sqlite3.connect('app.db')
+cursor = conn.cursor()
+query = f"SELECT pass_id FROM passanger ORDER BY pass_id DESC LIMIT 1"
+cursor.execute(query)
+passenger_count = cursor.fetchone()[0]
+
+print(passenger_count)
+
 conn = sqlite3.connect('app.db')
 cursor = conn.cursor()
 query = f"SELECT car_id FROM car ORDER BY car_id DESC LIMIT 1"
@@ -75,8 +87,15 @@ def main():
             return render_template('driver_main.html', driver_details = driver_details)         
         elif session['type'] == "admin":
             # driver_details = lining_algo()
+            conn = sqlite3.connect('app.db')
+            cursor = conn.cursor()
+            query = f"SELECT * FROM car "
+            cursor.execute(query)
+            car_list = cursor.fetchall()
+
+            print(car_list)
             print(driver_details)
-            return render_template('admin_main.html', driver_details = driver_details)
+            return render_template('admin_main.html', driver_details = driver_details, passenger_count = passenger_count , car_list = car_list)
     
     else:
   # The session does not exist
@@ -439,7 +458,7 @@ def admin_main():
         conn.close()
 
 
-        return render_template('admin_main.html', driver_details = driver_details )
+        return render_template('admin_main.html', driver_details = driver_details, passenger_count = passenger_count , car_list = car_list)
     
     else:
         error_message = "An error occurred with your registration. If you have used our services try loging in above!"

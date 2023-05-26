@@ -5,15 +5,52 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matatu sacco</title>
+    <style>
+        h5 {
+            font-size: 20px;
+            font-family: "JetBrains Mono", monospace;
+        }
+        div {
+        background-color: rgb(229, 231, 231);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border: 1px solid #000;
+        transition: box-shadow 0.3s ease-in-out;
+        }
+
+        div:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
-    <h1> Yeey!! you made it admin</h1>
+    <h1> The Admins page</h1>
+    <div class="user_count"> 
+        <h5>The total number of cars in the sacco is {{driver_details.all_cars}}</h5>
+        <h5>The Total passegers using the services are {{passenger_count}}</h5>
+    </div>
+    <h5> The saccos accounts are as follows</h5>
+    <div class=" accounts">
+        <h5>The car in line is {{driver_details.current_car_id}}</h5>
+        <h5>The total makings of the sacco today is {{driver_details.makings}}</h5>
+        <h5>The total makings of the sacco this week is {{driver_details.makings}}</h5>
+        <h5>the saccos profit this week is  {{driver_details.makings}}</h5>
+    </div>
+        <h5>cars in the sacco</h5>
+    <div class="list">
+        {% for car in car_list %}
+        <div>
+            <h5>Car cappacity: {{car[2]}}</h5><br>
+            <h5>car Plates: {{car[3]}}</h5>
+            <h5>Car's current capacity: {{car[4]}}</h5>
+            <h5>Numbers of trips today: {{car[4]}}</h5>
+        </div>
+        <br>
+        {% endfor %}
+        
+    </div>
+
     
-    <h5>The total number of cars in the sacco is {{driver_details.all_cars}}</h5>
-    <h5>The car in line is {{driver_details.current_car_id}}</h5>
-    <h5>The total makings of the sacco today is {{driver_details.makings}}</h5>
-    <h5>The total makings of the sacco this week is {{driver_details.makings}}</h5>
-    <h5>the saccos profit this week is  {{driver_details.makings}}</h5>
+    
   
 </body>
 </html>
