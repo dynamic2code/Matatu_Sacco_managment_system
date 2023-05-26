@@ -9,8 +9,10 @@ from secrets import secret_key
 app = Flask(__name__)
 
 app.secret_key = secret_key
+global driver_details
 
-def lining_algo():
+driver_details = {"all_cars": 0, "current_car_id": 0, "makings": 0}
+def lining_algo(drivers_details):
     """
     This function implements a lining algorithm.
 
@@ -20,7 +22,7 @@ def lining_algo():
     Returns:
     driver_details
     """
-    driver_details = {}
+    
 
     conn = sqlite3.connect('app.db')
 
@@ -72,11 +74,11 @@ def main():
         if session['type'] == "pass":
             return render_template('pass_main.html')
         elif session['type'] == "driver":
-            driver_details = lining_algo()
+            # driver_details = lining_algo()
             print(driver_details)
-            return render_template('drivers_main.html', driver_details = driver_details)         
+            return render_template('driver_main.html', driver_details = driver_details)         
         elif session['type'] == "admin":
-            driver_details = lining_algo()
+            # driver_details = lining_algo()
             print(driver_details)
             return render_template('admin_main.html', driver_details = driver_details)
     
@@ -411,9 +413,11 @@ def admin_main():
         #     driver_details = lining_algo()
         # driver_details = lining_algo()
         # print(driver_details)
-        lining_algo()
+        
 
-        return render_template('admin_main.html', driver_details = driver_details)
+     
+
+        return render_template('admin_main.html', driver_details = driver_details )
     
     else:
         error_message = "An error occurred with your registration. If you have used our services try loging in above!"
