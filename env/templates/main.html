@@ -9,21 +9,44 @@
         body {
           background-color: white;
         }
+        .container {
+          display: flex;
+          padding: auto;
+        }
+        .inner_div {
+          flex: 1;
+          background-color: rgb(255, 255, 255);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          border: 1px solid #000;
+          transition: box-shadow 0.3s ease-in-out;
+          padding: 3%;
+          margin: 2%;
+          border-radius: 5px;
+        }
+
+        .inner_div:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
         .description {
+          height: 500px;
           text-align: center;
           margin-top: 50px;
+          background-image: url('/home/grrhrwh/Documents/GitHub/Matatu_Sacco_managment_system/env/NICE-Buses_A.jpg');
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
         }
-        .button {
+        .black-button {
           display: block;
           text-align: center;
           margin-top: 20px;
-        }
-        .black-button {
-          background-color: black;
+          background-color: rgb(3, 137, 247);
           color: white;
           padding: 10px 20px;
           text-decoration: none;
+          border-radius: 5px;
         }
+
         .alert {
           border: 2px solid black;
           border-radius: 10px;
@@ -36,6 +59,33 @@
           transform: translateX(-50%);
           z-index: 9999;
         }
+        h1 {
+            font-size: 40px;
+            font-family: "JetBrains Mono", monospace;
+        }
+        p{
+            font-size: 20px;
+            font-family: "JetBrains Mono", monospace;
+        }
+        h2 {
+            font-size: 20px;
+            font-family: "JetBrains Mono", monospace;
+        }
+        h3 {
+            font-size: 20px;
+            font-family: "JetBrains Mono", monospace;
+        }
+        h4 {
+            font-size: 20px;
+            font-family: "JetBrains Mono", monospace;
+        }
+        li{
+            font-size: 20px;
+            font-family: "JetBrains Mono", monospace;
+        }
+        .centerh2 {
+          text-align: center;
+        }
       </style>
 </head>
 <body>
@@ -43,19 +93,40 @@
         <h1>Matatu Sacco</h1>
         <p>We at Matatu sacco are dedicated to provide you with first class servises for all your transport needs we promise you the best experience with us.</p>
     </div>
-    
-    <div class="button">
-        <a class="black-button" href="{{ url_for('pass_login') }}">Passenger</a>
-        <a class="black-button" href="{{ url_for('driver_login') }}">Driver</a>
-        <a class="black-button" href="{{ url_for('admin_login') }}">Admin</a>
-    </div> 
-
-    
-    <div class="button">
-        <h4>First time here? register below </h4>
+    <h2 class="centerh2">what we offer</h2>
+    <div class="container">
+      
+      <div class="inner_div">
+        <h3>for our estimed Passangers</h3>
+        <li>Easy Booking</li>
+        <li>Cashless payment</li>
+        <li> Security </li>
+        <a class="black-button" href="{{ url_for('pass_login') }}"> log in as Passenger</a>
+        <h4>Don't have an account yet? regiater below</h4>
         <a class="black-button" href="{{ url_for('pass_register') }}">Passenger</a>
+      </div>
+      <br>
+      <div class="inner_div">
+        <h3>for our drivers</h3>
+        <li> Finance management services</li>
+        <li> Easy collection of money</li>
+        <li> Saving services</li>
+        <li> loan services</li>
+        <a class="black-button" href="{{ url_for('driver_login') }}">Driver</a>
+        <h4>Don't have an account yet? regiater below</h4>
         <a class="black-button" href="{{ url_for('driver_register') }}">Driver</a>
-    </div> 
+      </div>
+      <br>
+      <div class="inner_div">
+        <h3>for Our admins</h3>
+        <li> Car tracking abilities</li>
+        <li> Finance management services</li>
+        <a class="black-button" href="{{ url_for('admin_login') }}">log in as Admin</a>
+      </div>
+    </div>   
+    <hr>
+    
+    
     {% with messages = get_flashed_messages() %}
     {% if messages %}
       <div class="alert alert-success">
